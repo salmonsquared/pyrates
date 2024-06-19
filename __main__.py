@@ -1,7 +1,10 @@
 import utils
-import tkinter
+import tkinter as tk
 from ctypes import windll
 
 windll.shcore.SetProcessDpiAwareness(1) # Fixes blurry text on W11
 
-tkinter._test()
+window = tk.Tk()
+greeting = tk.Label(text="Hello World")
+greeting.pack()
+window.mainloop()
