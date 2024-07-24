@@ -4,13 +4,6 @@ from ctypes import windll
 
 windll.shcore.SetProcessDpiAwareness(1) # Fixes blurry text on W11
 
-cookies = 0
-
-def when_clicked():
-    global cookies
-    cookies += 1
-    cookie_text.set(str(cookies))
-
 # Initalize Windows
 class MainApplication(tk.Frame):
     def __init__(self, parent, *args, **kwargs):
@@ -19,15 +12,25 @@ class MainApplication(tk.Frame):
 
         graph_label = tk.Label(parent, text="Graph")
 
-        c1 = tk.Label(parent, text = "Empty")
-        graph = tk.Label(parent, text = "Graph Goes Here", background = 'blue')
-        c2 = tk.Label(parent, text = "Empty")
+        c1 = tk.Label(parent, text = "Empty", background = 'yellow')
+        graph = tk.DisplayedGrid(parent)
+        c2 = tk.Label(parent, text = "Empty", background = 'yellow')
 
 
         graph_label.grid(row=0, column=1, sticky='ns', pady=2)
         c1.grid(row=1, column=0)
         graph.grid(row=1, column=1, sticky = 'ns', pady = 2)
         c2.grid(row=1, column=2)
+
+class DisplayedGrid(tk.Frame):
+    def __init__(self, parent, *args, **kwargs):
+        tk.Frame.__init__(self, parent, borderwidth=1)
+        self.parent = parent
+        title = tk.Label(parent, text = "Cell", background = 'blue')
+
+        for x in range(5):
+            for y in range(5):
+                title.grid(row=x, column=y)
 
 if __name__ == "__main__":
     root = tk.Tk()
