@@ -5,32 +5,34 @@ from ctypes import windll
 windll.shcore.SetProcessDpiAwareness(1) # Fixes blurry text on W11
 
 # Initalize Windows
-class MainApplication(tk.Frame):
+class MainApplication(tk.Frame): #Whole UI 
     def __init__(self, parent, *args, **kwargs):
         tk.Frame.__init__(self, parent, width=800, height=500)
         self.parent = parent
 
+        parent.columnconfigure(1, weight=1, minsize=100)
+        parent.rowconfigure(1, weight=1, minsize=75)
+
         graph_label = tk.Label(parent, text="Graph")
 
         c1 = tk.Label(parent, text = "Empty", background = 'yellow')
-        graph = tk.DisplayedGrid(parent)
         c2 = tk.Label(parent, text = "Empty", background = 'yellow')
 
-
-        graph_label.grid(row=0, column=1, sticky='ns', pady=2)
+        graph_label.grid(row=0, column=1, sticky='nswe', pady=2)
         c1.grid(row=1, column=0)
-        graph.grid(row=1, column=1, sticky = 'ns', pady = 2)
+        DisplayedGrid(self).grid(row=1, column=1, sticky = 'nswe', pady = 2)
         c2.grid(row=1, column=2)
 
-class DisplayedGrid(tk.Frame):
+class DisplayedGrid(tk.Frame): #Inner Displayed Rating Graph
     def __init__(self, parent, *args, **kwargs):
         tk.Frame.__init__(self, parent, borderwidth=1)
         self.parent = parent
-        title = tk.Label(parent, text = "Cell", background = 'blue')
-
         for x in range(5):
+            parent.columnconfigure(x, weight=1, minsize=200)
+            parent.rowconfigure(x, weight=1, minsize=150)
             for y in range(5):
-                title.grid(row=x, column=y)
+                title = tk.Label(parent, text = "Cell", borderwidth=1, relief='solid')
+                title.grid(row=x, column=y, sticky = 'nswe')
 
 if __name__ == "__main__":
     root = tk.Tk()
