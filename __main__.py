@@ -8,9 +8,9 @@ windll.shcore.SetProcessDpiAwareness(1) # Fixes blurry text on W11
 url = "http://www.omdbapi.com/?apikey=7c6a9526&"
 response = requests.get(url)
 
-def enter_pressed(parent):
-    parent.delete(0, 'end')
-    
+def enter_pressed(x):
+    print("Delete Command Pressed") #Temporary Debugging
+
 # Initalize Windows
 class MainApplication(tk.Frame): #Whole UI 
     def __init__(self, parent, *args, **kwargs):
@@ -41,7 +41,7 @@ class PosterCell(tk.Entry):
     def __init__(self, parent, *args, **kwargs):
         tk.Entry.__init__(self, parent)
         self.parent = parent
-        self.bind("<Enter>",enter_pressed(self))
+        self.bind("<Return>", enter_pressed)
 
 if __name__ == "__main__":
     root = tk.Tk()
