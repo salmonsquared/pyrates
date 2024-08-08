@@ -40,9 +40,9 @@ class PosterCell(tk.Entry):
         self.parent = parent
 
         def enter_pressed(x):
-            print("Delete Command Pressed") #Temporary Debugging
-            self.insert(0, "Enter pressed")
-        
+            movie_title = self.get()
+            print(movie_title)
+
         self.bind("<Return>", enter_pressed)
 
 if __name__ == "__main__":
