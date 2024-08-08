@@ -5,8 +5,7 @@ import json
 from ctypes import windll
 
 windll.shcore.SetProcessDpiAwareness(1) # Fixes blurry text on W11
-url = "http://www.omdbapi.com/?apikey=7c6a9526&"
-response = requests.get(url)
+movie_api = "http://www.omdbapi.com/?apikey=7c6a9526&"
 
 # Initalize Windows
 class MainApplication(tk.Frame): #Whole UI 
@@ -42,7 +41,11 @@ class PosterCell(tk.Entry):
         def enter_pressed(x):
             movie_title = self.get()
             print(movie_title)
-
+            search_parameters = {'t': movie_title}
+            movie_data = requests.get(movie_api, params = search_parameters).json()
+            print(movie_data)
+            movie_poster = movie_data['Poster']
+            print(movie_poster)
         self.bind("<Return>", enter_pressed)
 
 if __name__ == "__main__":
