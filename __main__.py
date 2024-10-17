@@ -58,6 +58,7 @@ class MyTableWidget(QTableWidget):
             poster_label = QtWidgets.QLabel(self)
             pixmap = QPixmap(movie_poster)
             poster_label.setPixmap(pixmap)
+            poster_label.setScaledContents(True)
             self.setCellWidget(0,0, poster_label)
             
 
