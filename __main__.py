@@ -1,6 +1,6 @@
-import sys, requests, json, platform
+import sys
+import requests
 from ctypes import windll
-from io import BytesIO
 
 from PyQt5 import QtCore, QtWidgets, QtGui, Qt
 from PyQt5.QtWidgets import (QApplication, QDialog, QMainWindow, QMessageBox, QTableWidget)
@@ -9,17 +9,17 @@ from PyQt5.uic import loadUi
 
 from main_ui import Ui_MainWindow
 
-windll.shcore.SetProcessDpiAwareness(1) # Fixes blurry text on W11
+windll.shcore.SetProcessDpiAwareness(1)  #Fixes blurry text on W11
 movie_api = "http://www.omdbapi.com/?apikey=7c6a9526&"
-placeholder_poster = "placeholderposter.png" #Used for testing
+placeholder_poster = "placeholderposter.png"  #Used for testing
+
 
 def fetch_image(url):
-    """
-    This function takes an Image URL and returns a QPixmap of the image. 
-    
-    Args: 
+    """This function takes an Image URL and returns a QPixmap of the image. 
+
+    Args:
         url (str): Image URL
-    
+
     Returns:
         pixmap (QPixmap): Image Pixmap
     """
@@ -28,7 +28,9 @@ def fetch_image(url):
     pixmap.loadFromData(response.content)
     return pixmap
 
+
 class MyTableWidget(QTableWidget):
+    """Class where table and all its functions are contained."""
     def __init__(self, parent=None):
         super(MyTableWidget, self).__init__(parent)
         self.setEnabled(True)
@@ -48,6 +50,7 @@ class MyTableWidget(QTableWidget):
         self.verticalHeader().setVisible(False)
 
     def keyPressEvent(self, event):
+        """Checks if keypress was enter on a TableWidgetItem, and if so grabs info from the API to use."""
         key = event.key()
         if key == 16777220 and str(type(self.currentItem())) == "<class 'PyQt5.QtWidgets.QTableWidgetItem'>": 
             current_row = self.currentRow()
@@ -71,9 +74,9 @@ class MyTableWidget(QTableWidget):
             super(MyTableWidget, self).keyPressEvent(event)
 
 
-
 # Initalize Windows
-class MainWindow(QMainWindow, Ui_MainWindow): #Whole UI 
+class MainWindow(QMainWindow, Ui_MainWindow):  
+    """Class for entire UI."""
     def __init__(self, *args, obj=None, **kwargs):
         super(MainWindow, self).__init__(*args, **kwargs)
         self.setupUi(self)
