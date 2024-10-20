@@ -50,7 +50,7 @@ class MyTableWidget(QTableWidget):
 
     def keyPressEvent(self, event):
         key = event.key()
-        if key == 16777220:
+        if key == 16777220 and str(type(self.currentItem())) == "<class 'PyQt5.QtWidgets.QTableWidgetItem'>":   
             search_title = self.currentItem().text() # bug where text box has to be blue, not just hilighted
             search_parameters = {'t': search_title}
             movie_data = requests.get(movie_api, params = search_parameters).json()
@@ -58,21 +58,15 @@ class MyTableWidget(QTableWidget):
             movie_title = movie_data['Title']
             print(movie_title)
             self.currentItem().setText(movie_title) 
-            #Fetch Poster 
-            movie_poster_url = movie_data['Poster']
+            movie_poster_url = movie_data['Poster'] #Fetch Poster
             movie_poster = fetch_image(movie_poster_url)
-            #Image
-            poster_label = QtWidgets.QLabel(self)
+            poster_label = QtWidgets.QLabel(self) #Image
             pixmap = QPixmap(movie_poster)
             poster_label.setPixmap(pixmap)
             poster_label.setScaledContents(True)
             self.setCellWidget(0,0, poster_label)
-            
-
-            
         else:
             super(MyTableWidget, self).keyPressEvent(event)
-
 
 
 
