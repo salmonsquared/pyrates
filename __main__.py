@@ -50,21 +50,24 @@ class MyTableWidget(QTableWidget):
 
     def keyPressEvent(self, event):
         key = event.key()
-        if key == 16777220 and str(type(self.currentItem())) == "<class 'PyQt5.QtWidgets.QTableWidgetItem'>":   
-            search_title = self.currentItem().text() # bug where text box has to be blue, not just hilighted
-            search_parameters = {'t': search_title}
-            movie_data = requests.get(movie_api, params = search_parameters).json()
-            print(movie_data)
-            movie_title = movie_data['Title']
-            print(movie_title)
-            self.currentItem().setText(movie_title) 
-            movie_poster_url = movie_data['Poster'] #Fetch Poster
-            movie_poster = fetch_image(movie_poster_url)
-            poster_label = QtWidgets.QLabel(self) #Image
-            pixmap = QPixmap(movie_poster)
-            poster_label.setPixmap(pixmap)
-            poster_label.setScaledContents(True)
-            self.setCellWidget(0,0, poster_label)
+        if key == 16777220 and str(type(self.currentItem())) == "<class 'PyQt5.QtWidgets.QTableWidgetItem'>": 
+            current_row = self.currentRow()
+            current_column = self.currentColumn()
+            if current_column == 1:
+                search_title = self.item(current_row, current_column).text()
+                search_parameters = {'t': search_title}
+                movie_data = requests.get(movie_api, params = search_parameters).json()
+                print(movie_data)
+                movie_title = movie_data['Title']
+                print(movie_title)
+                self.currentItem().setText(movie_title) 
+                movie_poster_url = movie_data['Poster'] #Fetch Poster
+                movie_poster = fetch_image(movie_poster_url)
+                poster_label = QtWidgets.QLabel(self) #Image
+                pixmap = QPixmap(movie_poster)
+                poster_label.setPixmap(pixmap)
+                poster_label.setScaledContents(True)
+                self.setCellWidget(current_row,0, poster_label)
         else:
             super(MyTableWidget, self).keyPressEvent(event)
 
