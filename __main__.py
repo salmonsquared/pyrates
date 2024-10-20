@@ -1,7 +1,5 @@
 import utils # Local Package
-import sys
-import requests
-import json
+import sys, requests, json, platform
 from ctypes import windll
 from io import BytesIO
 
@@ -14,9 +12,18 @@ from main_ui import Ui_MainWindow
 
 windll.shcore.SetProcessDpiAwareness(1) # Fixes blurry text on W11
 movie_api = "http://www.omdbapi.com/?apikey=7c6a9526&"
-placeholder_poster = "placeholderposter.png"
+placeholder_poster = "placeholderposter.png" #Used for testing
 
 def fetch_image(url):
+    """
+    This function takes an Image URL and returns a QPixmap of the image. 
+    
+    Args: 
+        url (str): Image URL
+    
+    Returns:
+        pixmap (QPixmap): Image Pixmap
+    """
     response = requests.get(url)
     pixmap = QtGui.QPixmap()
     pixmap.loadFromData(response.content)
