@@ -88,7 +88,6 @@ class MainWindow(QMainWindow):
         self.centralwidget = QtWidgets.QWidget()
         self.tableWidget = MyTableWidget(self)
         self.tableWidget.setGeometry(QtCore.QRect(100, 100, 300, 300))
-        self.tableWidget(QtCore.Qt.AlignCenter)
         self.label = QtWidgets.QLabel(self.centralwidget)
         self.label.setGeometry(QtCore.QRect(40, 10, 361, 20))
         self.label.setAlignment(QtCore.Qt.AlignCenter)
