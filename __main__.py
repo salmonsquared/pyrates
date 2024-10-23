@@ -34,7 +34,6 @@ class MyTableWidget(QTableWidget):
     def __init__(self, parent):
         super(MyTableWidget, self).__init__(parent)
         self.setEnabled(True)
-        # self.setGeometry(QtCore.QRect(32, 40, 1005, 900))
         self.setAutoFillBackground(False)
         self.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustIgnored)
         self.setGridStyle(QtCore.Qt.SolidLine)
@@ -60,16 +59,19 @@ class MyTableWidget(QTableWidget):
                 search_parameters = {'t': search_title}
                 movie_data = requests.get(movie_api, params = search_parameters).json()
                 print(movie_data)
-                movie_title = movie_data['Title']
-                print(movie_title)
-                self.currentItem().setText(movie_title) 
-                movie_poster_url = movie_data['Poster'] #Fetch Poster
-                movie_poster = fetch_image(movie_poster_url)
-                poster_label = QtWidgets.QLabel(self) #Image
-                pixmap = QPixmap(movie_poster)
-                poster_label.setPixmap(pixmap)
-                poster_label.setScaledContents(True)
-                self.setCellWidget(current_row,0, poster_label)
+                if movie_data['Response'] == 'True':
+                    movie_title = movie_data['Title']
+                    print(movie_title)
+                    self.currentItem().setText(movie_title) 
+                    movie_poster_url = movie_data['Poster'] #Fetch Poster
+                    movie_poster = fetch_image(movie_poster_url)
+                    poster_label = QtWidgets.QLabel(self) #Image
+                    pixmap = QPixmap(movie_poster)
+                    poster_label.setPixmap(pixmap)
+                    poster_label.setScaledContents(True)
+                    self.setCellWidget(current_row,0, poster_label)
+                else: 
+                    self.currentItem().setText("Movie not found!") 
         else:
             super(MyTableWidget, self).keyPressEvent(event)
 
