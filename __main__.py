@@ -3,7 +3,7 @@ import requests
 from ctypes import windll
 
 from PyQt5 import QtCore, QtWidgets, QtGui, Qt
-from PyQt5.QtWidgets import (QApplication, QDialog, QMainWindow, QMessageBox, QTableWidget)
+from PyQt5.QtWidgets import (QApplication, QDialog, QMainWindow, QMessageBox, QTableWidget, QMenuBar, QAction)
 from PyQt5.QtGui import QPixmap
 from PyQt5.uic import loadUi
 
@@ -31,10 +31,10 @@ def fetch_image(url):
 
 class MyTableWidget(QTableWidget):
     """Class where table and all its functions are contained."""
-    def __init__(self, parent=None):
+    def __init__(self, parent):
         super(MyTableWidget, self).__init__(parent)
         self.setEnabled(True)
-        self.setGeometry(QtCore.QRect(32, 40, 1005, 900))
+        # self.setGeometry(QtCore.QRect(32, 40, 1005, 900))
         self.setAutoFillBackground(False)
         self.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustIgnored)
         self.setGridStyle(QtCore.Qt.SolidLine)
@@ -75,14 +75,49 @@ class MyTableWidget(QTableWidget):
 
 
 # Initalize Windows
-class MainWindow(QMainWindow, Ui_MainWindow):  
-    """Class for entire UI."""
-    def __init__(self, *args, obj=None, **kwargs):
-        super(MainWindow, self).__init__(*args, **kwargs)
-        self.setupUi(self)
+class MainWindow(QMainWindow):
+    def __init__(self, parent=None):
+        super(MainWindow, self).__init__()
+        self.setObjectName("MainWindow")
+        self.resize(446, 338)
+        self.setWindowTitle("PyRates")
+        # Setup Menu Bar
+        self._createActions()
+        self._createMenuBar()
+        # Setup Widgets 
+        self.centralwidget = QtWidgets.QWidget()
+        self.tableWidget = MyTableWidget(self)
+        self.tableWidget.setGeometry(QtCore.QRect(100, 100, 300, 300))
+        self.tableWidget(QtCore.Qt.AlignCenter)
+        self.label = QtWidgets.QLabel(self.centralwidget)
+        self.label.setGeometry(QtCore.QRect(40, 10, 361, 20))
+        self.label.setAlignment(QtCore.Qt.AlignCenter)
+        self.label.setText("New Table")
+        self.setCentralWidget(self.tableWidget)
+        
+        
+    def _createActions(self):
+        self.newAction = QAction("&New Table", self)
+        self.saveAction = QAction("&Save", self)
+        self.openAction = QAction("&Open...", self)
+        self.githubAction = QAction("&GitHub", self)
+        self.aboutAction = QAction("&About", self)
+        
+    def _createMenuBar(self):
+        menuBar = QMenuBar(self)
+        self.setMenuBar(menuBar)
+        fileMenu = menuBar.addMenu("&File")
+        helpMenu = menuBar.addMenu("&Help")
+        fileMenu.addAction(self.newAction)
+        fileMenu.addAction(self.saveAction)
+        fileMenu.addAction(self.openAction)
+        helpMenu.addAction(self.githubAction)
+        helpMenu.addAction(self.aboutAction)
+        
+        # self.actionNew_Table = QtWidgets.QAction()
 
-app = QApplication(sys.argv)
-
-window = MyTableWidget()
-window.show()
-app.exec()
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    window = MainWindow()
+    window.show()
+    app.exec()
