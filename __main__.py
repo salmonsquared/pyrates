@@ -86,13 +86,13 @@ class MainWindow(QMainWindow):
         self._createMenuBar()
         # Setup Widgets 
         self.centralwidget = QtWidgets.QWidget()
-        self.tableWidget = MyTableWidget(self)
+        self.tableWidget = MyTableWidget(self.centralwidget)
         self.tableWidget.setGeometry(QtCore.QRect(100, 100, 300, 300))
         self.label = QtWidgets.QLabel(self.centralwidget)
         self.label.setGeometry(QtCore.QRect(40, 10, 361, 20))
         self.label.setAlignment(QtCore.Qt.AlignCenter)
         self.label.setText("New Table")
-        self.setCentralWidget(self.tableWidget)
+        self.setCentralWidget(self.centralwidget)
         
         
     def _createActions(self):
