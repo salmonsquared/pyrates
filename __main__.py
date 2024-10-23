@@ -87,18 +87,15 @@ class MainWindow(QMainWindow):
         # Setup Widgets 
         self.centralwidget = QtWidgets.QWidget()
         self.centralwidget.setLayout(QtWidgets.QVBoxLayout())
-        
         self.label = QtWidgets.QLabel(self.centralwidget)
         self.label.setAlignment(QtCore.Qt.AlignCenter)
         self.label.setText("New Table")
         self.centralwidget.layout().addWidget(self.label)
-        
         self.tableWidget = MyTableWidget(self.centralwidget)
         self.tableWidget.setSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
         self.centralwidget.layout().addWidget(self.tableWidget)
-        
         self.setCentralWidget(self.centralwidget)
-        
+
         
     def _createActions(self):
         self.newAction = QAction("&New Table", self)
