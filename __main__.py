@@ -7,7 +7,7 @@ from PyQt5.QtWidgets import (QApplication, QDialog, QMainWindow, QMessageBox, QT
 from PyQt5.QtGui import QPixmap
 from PyQt5.uic import loadUi
 
-from main_ui import Ui_MainWindow
+from submenu import AboutMenu
 
 windll.shcore.SetProcessDpiAwareness(1)  #Fixes blurry text on W11
 movie_api = "http://www.omdbapi.com/?apikey=7c6a9526&"
