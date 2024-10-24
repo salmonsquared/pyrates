@@ -40,12 +40,22 @@ class MyTableWidget(QTableWidget):
         self.setRowCount(5)
         self.setColumnCount(5)
         self.setObjectName("tableWidget")
-        for n in range(4):
+        # Column 0 = "Poster"
+        item = QtWidgets.QTableWidgetItem()
+        item.setText("Poster")
+        self.setHorizontalHeaderItem(0, item)
+        # Column 1 = "Title"
+        item = QtWidgets.QTableWidgetItem()
+        item.setText("Title")
+        self.setHorizontalHeaderItem(1, item)
+        # Clear Remaining Columns 
+        for n in range(2,6):
             item = QtWidgets.QTableWidgetItem()
-            self.setHorizontalHeaderItem(n, item)
-        self.horizontalHeader().setVisible(True)
+            self.setHorizontalHeaderItem(n, item) 
+        # Finish Creating Table
         self.horizontalHeader().setDefaultSectionSize(200)
         self.verticalHeader().setDefaultSectionSize(160)
+        self.horizontalHeader().setVisible(True)
         self.verticalHeader().setVisible(False)
 
     def keyPressEvent(self, event):
@@ -63,8 +73,11 @@ class MyTableWidget(QTableWidget):
                     movie_title = movie_data['Title']
                     print(movie_title)
                     self.currentItem().setText(movie_title) 
-                    movie_poster_url = movie_data['Poster'] #Fetch Poster
-                    movie_poster = fetch_image(movie_poster_url)
+                    if 'Poster' in movie_data and movie_data['Poster'] != 'N/A':
+                        movie_poster_url = movie_data['Poster'] #Fetch Poster
+                        movie_poster = fetch_image(movie_poster_url)
+                    else:
+                        movie_poster = "placeholderposter.png"
                     poster_label = QtWidgets.QLabel(self) #Image
                     pixmap = QPixmap(movie_poster)
                     poster_label.setPixmap(pixmap)
