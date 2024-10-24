@@ -116,8 +116,8 @@ class MainWindow(QMainWindow):
         self.newAction = QAction("&New Table", self)
         self.saveAction = QAction("&Save", self)
         self.openAction = QAction("&Open...", self)
-        self.githubAction = QAction("&GitHub", self)
         self.aboutAction = QAction("&About", self)
+        self.githubAction = QAction("&GitHub", self)
         
     def _createMenuBar(self):
         menuBar = QMenuBar(self)
@@ -127,10 +127,8 @@ class MainWindow(QMainWindow):
         fileMenu.addAction(self.newAction)
         fileMenu.addAction(self.saveAction)
         fileMenu.addAction(self.openAction)
-        helpMenu.addAction(self.githubAction)
         helpMenu.addAction(self.aboutAction)
-        
-        # self.actionNew_Table = QtWidgets.QAction()
+        helpMenu.addAction(self.githubAction)
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
