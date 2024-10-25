@@ -1,13 +1,14 @@
 import sys
 import requests
 from ctypes import windll
+import webbrowser
 
 from PyQt5 import QtCore, QtWidgets, QtGui, Qt
 from PyQt5.QtWidgets import (QApplication, QDialog, QMainWindow, QMessageBox, QTableWidget, QMenuBar, QAction)
 from PyQt5.QtGui import QPixmap
 from PyQt5.uic import loadUi
 
-from submenu import AboutMenu
+import submenu
 
 windll.shcore.SetProcessDpiAwareness(1)  #Fixes blurry text on W11
 movie_api = "http://www.omdbapi.com/?apikey=7c6a9526&"
@@ -111,13 +112,15 @@ class MainWindow(QMainWindow):
         self.centralwidget.layout().addWidget(self.tableWidget)
         self.setCentralWidget(self.centralwidget)
 
-        
     def _createActions(self):
         self.newAction = QAction("&New Table", self)
         self.saveAction = QAction("&Save", self)
         self.openAction = QAction("&Open...", self)
         self.aboutAction = QAction("&About", self)
         self.githubAction = QAction("&GitHub", self)
+        
+        self.aboutAction.triggered.connect(self.openAbout)
+        self.githubAction.triggered.connect(self.openGithub)
         
     def _createMenuBar(self):
         menuBar = QMenuBar(self)
@@ -127,8 +130,17 @@ class MainWindow(QMainWindow):
         fileMenu.addAction(self.newAction)
         fileMenu.addAction(self.saveAction)
         fileMenu.addAction(self.openAction)
-        helpMenu.addAction(self.aboutAction)
+        helpMenu.addAction(self.aboutAction)    
         helpMenu.addAction(self.githubAction)
+        
+    def openAbout(self, s):
+        print("About Window Opened")
+        self.about = submenu.AboutMenu()
+        self.about.show()
+        
+    def openGithub(self, s):
+        webbrowser.open("https://github.com/salmonsquared/pyrates")
+        
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
