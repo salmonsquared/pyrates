@@ -114,7 +114,8 @@ class MainWindow(QMainWindow):
 
     def _createActions(self):
         self.newAction = QAction("&New Table", self)
-        self.saveAction = QAction("&Save", self)
+        self.saveAction = QAction("&Save as XML", self)
+        self.exportAction = QAction("&Export as HTML", self)
         self.openAction = QAction("&Open...", self)
         self.aboutAction = QAction("&About", self)
         self.githubAction = QAction("&GitHub", self)
@@ -129,12 +130,12 @@ class MainWindow(QMainWindow):
         helpMenu = menuBar.addMenu("&Help")
         fileMenu.addAction(self.newAction)
         fileMenu.addAction(self.saveAction)
+        fileMenu.addAction(self.exportAction)
         fileMenu.addAction(self.openAction)
-        helpMenu.addAction(self.aboutAction)    
+        helpMenu.addAction(self.aboutAction)        
         helpMenu.addAction(self.githubAction)
         
     def openAbout(self, s):
-        print("About Window Opened")
         self.about = submenu.AboutMenu()
         self.about.show()
         
