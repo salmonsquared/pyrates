@@ -103,13 +103,24 @@ class MainWindow(QMainWindow):
         # Setup Widgets 
         self.centralwidget = QtWidgets.QWidget()
         self.centralwidget.setLayout(QtWidgets.QVBoxLayout())
+        # Heading Label
         self.label = QtWidgets.QLabel(self.centralwidget)
         self.label.setAlignment(QtCore.Qt.AlignCenter)
         self.label.setText("New Table")
         self.centralwidget.layout().addWidget(self.label)
+        # Table Widget
         self.tableWidget = MyTableWidget(self.centralwidget)
         self.tableWidget.setSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
         self.centralwidget.layout().addWidget(self.tableWidget)
+        # Buttons
+        self.button_holder = QtWidgets.QWidget()
+        self.button_holder.setLayout(QtWidgets.QHBoxLayout())
+        self.deleteRowButton = QtWidgets.QPushButton("-")
+        self.newRowButton = QtWidgets.QPushButton("+")
+        self.button_holder.layout().addWidget(self.deleteRowButton)
+        self.button_holder.layout().addWidget(self.newRowButton)
+        self.centralwidget.layout().addWidget(self.button_holder, alignment=QtCore.Qt.AlignCenter)
+        # Finalization
         self.setCentralWidget(self.centralwidget)
 
     def _createActions(self):
