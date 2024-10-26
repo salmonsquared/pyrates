@@ -95,7 +95,7 @@ class MainWindow(QMainWindow):
     def __init__(self, parent=None):
         super(MainWindow, self).__init__()
         self.setObjectName("MainWindow")
-        self.resize(446, 338)
+        self.resize(1050, 1000)
         self.setWindowTitle("PyRates")
         # Setup Menu Bar
         self._createActions()
