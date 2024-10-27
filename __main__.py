@@ -1,10 +1,12 @@
 import sys
 import requests
-from ctypes import windll
 import webbrowser
+import csv
+from ctypes import windll
+
 
 from PyQt5 import QtCore, QtWidgets, QtGui, Qt
-from PyQt5.QtWidgets import (QApplication, QDialog, QMainWindow, QMessageBox, QTableWidget, QMenuBar, QAction)
+from PyQt5.QtWidgets import (QApplication, QDialog, QFileDialog, QMainWindow, QMessageBox, QTableWidget, QMenuBar, QAction)
 from PyQt5.QtGui import QPixmap
 from PyQt5.uic import loadUi
 
@@ -127,7 +129,7 @@ class MainWindow(QMainWindow):
 
     def _createActions(self):
         self.newAction = QAction("&New Table", self)
-        self.saveAction = QAction("&Save as XML", self)
+        self.saveAction = QAction("&Save as CSV", self)
         self.exportAction = QAction("&Export as HTML", self)
         self.openAction = QAction("&Open...", self)
         self.aboutAction = QAction("&About", self)
@@ -135,6 +137,8 @@ class MainWindow(QMainWindow):
         
         self.aboutAction.triggered.connect(self.openAbout)
         self.githubAction.triggered.connect(self.openGithub)
+        self.saveAction.triggered.connect(self.saveFile)
+        self.openAction.triggered.connect(self.openFile)
         
     def _createMenuBar(self):
         menuBar = QMenuBar(self)
@@ -162,6 +166,33 @@ class MainWindow(QMainWindow):
     def deleteRow(self):
         lastRow = self.tableWidget.rowCount()
         self.tableWidget.removeRow(lastRow-1)
+        
+    #Saving and Exporting
+    def saveFile(self, s):
+        file = QFileDialog.getSaveFileName(self, "Save CSV File", "", "CSV (*.csv)")
+        writer = csv.writer(open(file[0], "x", newline='')) # Talk about how needed to use open() to ensure file was created
+        for r in range(self.tableWidget.rowCount()):
+            row_items = []
+            for c in range(self.tableWidget.columnCount()):
+                if self.tableWidget.item(r, c) is not None:
+                    row_items.append(self.tableWidget.item(r, c).text())
+                else:
+                    row_items.append("")
+            writer.writerow(row_items)
+        print("File saved to " + file[0])
+        
+    #Opening
+    def openFile(self, s):
+        file = QFileDialog.getOpenFileName(self, "Open CSV File", "", "CSV (*.csv)")
+        print(file[0])
+        reader = csv.reader(open(file[0], 'r')) # Talk about how needed to use open() to ensure file was created
+        row_count = sum(1 for row in reader)
+        print(row_count)
+        self.tableWidget.setRowCount(row_count)
+        for row in reader:
+            print(row)
+        print("File opened at " + file[0])
+
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
