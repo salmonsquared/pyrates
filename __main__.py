@@ -122,6 +122,8 @@ class MainWindow(QMainWindow):
         self.centralwidget.layout().addWidget(self.button_holder, alignment=QtCore.Qt.AlignCenter)
         # Finalization
         self.setCentralWidget(self.centralwidget)
+        self.deleteRowButton.clicked.connect(self.deleteRow)
+        self.newRowButton.clicked.connect(self.addRow)
 
     def _createActions(self):
         self.newAction = QAction("&New Table", self)
@@ -153,6 +155,13 @@ class MainWindow(QMainWindow):
     def openGithub(self, s):
         webbrowser.open("https://github.com/salmonsquared/pyrates")
         
+    def addRow(self):
+        lastRow = self.tableWidget.rowCount()
+        self.tableWidget.insertRow(lastRow) 
+
+    def deleteRow(self):
+        lastRow = self.tableWidget.rowCount()
+        self.tableWidget.removeRow(lastRow-1)
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
