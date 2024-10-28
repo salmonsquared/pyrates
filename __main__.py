@@ -209,7 +209,10 @@ class MainWindow(QMainWindow):
             html_file.write("   <tr>")
             for c in range(self.tableWidget.columnCount()):
                 if self.tableWidget.item(r, c) is not None:
-                    html_file.write("       <td>" + self.tableWidget.item(r, c).text() + "</td>")
+                    if c == 0:
+                        html_file.write("       <td><img src=" + self.tableWidget.item(r, c).text() + "></td>")
+                    else:
+                        html_file.write("       <td>" + self.tableWidget.item(r, c).text() + "</td>")
                 else:
                     html_file.write("      <td></td>")
             html_file.write("   </tr>")
