@@ -140,6 +140,7 @@ class MainWindow(QMainWindow):
         self.aboutAction.triggered.connect(self.openAbout)
         self.githubAction.triggered.connect(self.openGithub)
         self.saveAction.triggered.connect(self.saveFile)
+        self.exportAction.triggered.connect(self.exportFile)
         self.openAction.triggered.connect(self.openFile)
         
     def _createMenuBar(self):
@@ -172,7 +173,7 @@ class MainWindow(QMainWindow):
     #Saving and Exporting
     def saveFile(self, s):
         file = QFileDialog.getSaveFileName(self, "Save CSV File", "", "CSV (*.csv)")
-        writer = csv.writer(open(file[0], "x", newline=''), delimiter=',', quotechar='|') # Talk about how needed to use open() to ensure file was created
+        writer = csv.writer(open(file[0], "w", newline=''), delimiter=',', quotechar='|') # Talk about how needed to use open() to ensure file was created
         for r in range(self.tableWidget.rowCount()):
             row_items = []
             for c in range(self.tableWidget.columnCount()):
@@ -196,6 +197,24 @@ class MainWindow(QMainWindow):
                 self.tableWidget.setItem((loaded_rows - 1), c, QtWidgets.QTableWidgetItem(str(row[c])))
         print("File opened at " + file[0])
 
+    #Exporting to HTML
+    def exportFile(self, s):
+        file = QFileDialog.getSaveFileName(self, "Save HTML File", "", "Hyper Text Markup Language file (*.html)")
+        html_file = open(file[0], 'w')
+        html_file.write("<table>\n  <tr>")
+        for h in range(self.tableWidget.columnCount()):
+            html_file.write("       <th>" + self.tableWidget.horizontalHeaderItem(h).text() + "</th>")
+        html_file.write("   </tr>")
+        for r in range(self.tableWidget.rowCount()):
+            html_file.write("   <tr>")
+            for c in range(self.tableWidget.columnCount()):
+                if self.tableWidget.item(r, c) is not None:
+                    html_file.write("       <td>" + self.tableWidget.item(r, c).text() + "</td>")
+                else:
+                    html_file.write("      <td></td>")
+            html_file.write("   </tr>")
+        html_file.write("</table>")
+            
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     window = MainWindow()
