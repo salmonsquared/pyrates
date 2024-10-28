@@ -73,8 +73,8 @@ class MyTableWidget(QTableWidget):
     def key_press_event(self, event):
         """Check if keypress was enter, and if so grab info from the API."""
         key = event.key()
-        if key == 16777220 and \
-        str(type(self.currentItem())) == "<class 'PyQt5.QtWidgets.QTableWidgetItem'>":
+        if (key == 16777220 and
+            str(type(self.currentItem())) == "<class 'PyQt5.QtWidgets.QTableWidgetItem'>"):
             current_row = self.currentRow()
             current_column = self.currentColumn()
             if current_column == 1:
@@ -87,8 +87,8 @@ class MyTableWidget(QTableWidget):
                     movie_title = movie_data['Title']
                     print(movie_title)
                     self.currentItem().setText(movie_title)
-                    if 'Poster' in movie_data and \
-                    movie_data['Poster'] != 'N/A':
+                    if ('Poster' in movie_data and
+                        movie_data['Poster'] != 'N/A'):
                         movie_poster_url = movie_data['Poster']  # Fetch Poster
                         movie_poster = fetch_image(movie_poster_url)
                     else:
@@ -110,10 +110,9 @@ class MyTableWidget(QTableWidget):
 # Initalize Windows
 class MainWindow(QMainWindow):
     """Represents the main window the PyRates user sees."""
-    
+
     def __init__(self, parent=None):
         """Create Main Window."""
-        
         super(MainWindow, self).__init__()
         self.setObjectName("MainWindow")
         self.resize(1050, 1000)
@@ -160,7 +159,7 @@ class MainWindow(QMainWindow):
         self.saveAction.triggered.connect(self.save_file)
         self.exportAction.triggered.connect(self.export_file)
         self.openAction.triggered.connect(self.open_file)
-  
+
     def _create_menu_bar(self):
         menu_bar = QMenuBar(self)
         self.setMenuBar(menu_bar)
@@ -170,39 +169,35 @@ class MainWindow(QMainWindow):
         file_menu.addAction(self.saveAction)
         file_menu.addAction(self.exportAction)
         file_menu.addAction(self.openAction)
-        help_menu.addAction(self.aboutAction)    
+        help_menu.addAction(self.aboutAction)
         help_menu.addAction(self.githubAction)
 
     def open_about(self, s):
         """Open the about infobox."""
-        
         self.about = submenu.AboutMenu()
         self.about.show()
   
     def open_github(self, s):
         """Open the PyRates GitHub."""
-        
         webbrowser.open("https://github.com/salmonsquared/pyrates")
 
     def add_row(self):
         """Add a row to the table."""
-        
-        lastRow = self.tableWidget.rowCount()
-        self.tableWidget.insertRow(lastRow) 
+        last_row = self.tableWidget.rowCount()
+        self.tableWidget.insertRow(last_row)
 
     def delete_row(self):
         """Delete a row from the table."""
-        
         last_row = self.tableWidget.rowCount()
         self.tableWidget.removeRow(last_row-1)
   
     # Saving and Exporting
     def save_file(self, s):
         """Save file to XML."""
-        
         file = QFileDialog.getSaveFileName(self, "Save CSV File",
                                            "", "CSV (*.csv)")
-        writer = csv.writer(open(file[0], "w", newline=''), delimiter=',', quotechar='|')
+        writer = csv.writer(open(file[0], "w", newline=''),
+                            delimiter=',', quotechar='|')
         for r in range(self.tableWidget.rowCount()):
             row_items = []
             for c in range(self.tableWidget.columnCount()):
@@ -216,7 +211,6 @@ class MainWindow(QMainWindow):
     # Opening
     def open_file(self, s):
         """Open table from XML file."""
-        
         file = QFileDialog.getOpenFileName(self, "Open CSV File",
                                            "", "CSV (*.csv)")
         reader = csv.reader(open(file[0], 'r',), delimiter=',', quotechar='|')
@@ -232,7 +226,6 @@ class MainWindow(QMainWindow):
     # Exporting to HTML
     def export_file(self, s):
         """Export table contents to HTML."""
-        
         file = QFileDialog.getSaveFileName(self, "Save HTML File",
                                            "", "Hyper Text Markup Language file (*.html)")
         html_file = open(file[0], 'w')
