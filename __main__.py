@@ -70,18 +70,17 @@ class MyTableWidget(QTableWidget):
         self.horizontalHeader().setVisible(True)
         self.verticalHeader().setVisible(False)
 
-    def key_press_event(self, event):
+    def keyPressEvent(self, event):
         """Check if keypress was enter, and if so grab info from the API."""
         key = event.key()
-        if (key == 16777220 and
-            str(type(self.currentItem())) == "<class 'PyQt5.QtWidgets.QTableWidgetItem'>"):
+        if key == 16777220 and \
+            str(type(self.currentItem()) == "<class 'PyQt5.QtWidgets.QTableWidgetItem'>"):
             current_row = self.currentRow()
             current_column = self.currentColumn()
             if current_column == 1:
                 search_title = self.item(current_row, current_column).text()
                 search_parameters = {'t': search_title}
-                movie_data = requests.get(movie_api,
-                                          params=search_parameters).json()
+                movie_data = requests.get(movie_api, params=search_parameters).json()
                 print(movie_data)
                 if movie_data['Response'] == 'True':
                     movie_title = movie_data['Title']
@@ -104,7 +103,7 @@ class MyTableWidget(QTableWidget):
                 else:
                     self.currentItem().setText("Movie not found!")
         else:
-            super(MyTableWidget, self).key_press_event(event)
+            super(MyTableWidget, self).keyPressEvent(event)
 
 
 # Initalize Windows
@@ -207,7 +206,7 @@ class MainWindow(QMainWindow):
                     row_items.append("")
             writer.writerow(row_items)
         print("File saved to " + file[0])
- 
+
     # Opening
     def open_file(self, s):
         """Open table from XML file."""
@@ -252,7 +251,7 @@ class MainWindow(QMainWindow):
             html_file.write("   </tr>")
         html_file.write("</table>")
 
-   
+
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     window = MainWindow()
