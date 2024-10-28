@@ -80,12 +80,14 @@ class MyTableWidget(QTableWidget):
                         movie_poster_url = movie_data['Poster'] #Fetch Poster
                         movie_poster = fetch_image(movie_poster_url)
                     else:
+                        movie_poster_url = "placeholderposter.png"
                         movie_poster = "placeholderposter.png"
                     poster_label = QtWidgets.QLabel(self) #Image
                     pixmap = QPixmap(movie_poster)
                     poster_label.setPixmap(pixmap)
                     poster_label.setScaledContents(True)
-                    self.setCellWidget(current_row,0, poster_label)
+                    self.setItem(current_row, 0, QtWidgets.QTableWidgetItem(str(movie_poster_url)))
+                    self.setCellWidget(current_row, 0, poster_label)
                 else: 
                     self.currentItem().setText("Movie not found!") 
         else:
@@ -170,7 +172,7 @@ class MainWindow(QMainWindow):
     #Saving and Exporting
     def saveFile(self, s):
         file = QFileDialog.getSaveFileName(self, "Save CSV File", "", "CSV (*.csv)")
-        writer = csv.writer(open(file[0], "x", newline='')) # Talk about how needed to use open() to ensure file was created
+        writer = csv.writer(open(file[0], "x", newline=''), delimiter=',', quotechar='|') # Talk about how needed to use open() to ensure file was created
         for r in range(self.tableWidget.rowCount()):
             row_items = []
             for c in range(self.tableWidget.columnCount()):
@@ -184,15 +186,15 @@ class MainWindow(QMainWindow):
     #Opening
     def openFile(self, s):
         file = QFileDialog.getOpenFileName(self, "Open CSV File", "", "CSV (*.csv)")
-        print(file[0])
-        reader = csv.reader(open(file[0], 'r')) # Talk about how needed to use open() to ensure file was created
-        row_count = sum(1 for row in reader)
-        print(row_count)
-        self.tableWidget.setRowCount(row_count)
+        reader = csv.reader(open(file[0], 'r',), delimiter=',', quotechar='|') # Talk about how needed to use open() to ensure file was created
+        loaded_rows = 0
+        self.tableWidget.setRowCount(loaded_rows) #Talk about how using row in reader twice didnt work initially, but looking into it the pointer was at the end and needed to be reset
         for row in reader:
-            print(row)
+            loaded_rows += 1
+            self.tableWidget.setRowCount(loaded_rows)
+            for c in range(5):
+                self.tableWidget.setItem((loaded_rows - 1), c, QtWidgets.QTableWidgetItem(str(row[c])))
         print("File opened at " + file[0])
-
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
