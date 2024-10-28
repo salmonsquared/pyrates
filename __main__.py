@@ -1,6 +1,7 @@
 """This file holds the main functionality for PyRates."""
 
 import sys
+import os
 import requests
 import webbrowser
 import csv
@@ -116,6 +117,7 @@ class MainWindow(QMainWindow):
         self.setObjectName("MainWindow")
         self.resize(1050, 1000)
         self.setWindowTitle("PyRates")
+        self.setWindowIcon(QtGui.QIcon('icon.png'))
         # Setup Menu Bar
         self._create_actions()
         self._create_menu_bar()
@@ -155,6 +157,7 @@ class MainWindow(QMainWindow):
         self.githubAction = QAction("&GitHub", self)
         self.aboutAction.triggered.connect(self.open_about)
         self.githubAction.triggered.connect(self.open_github)
+        self.newAction.triggered.connect(self.new_file)
         self.saveAction.triggered.connect(self.save_file)
         self.exportAction.triggered.connect(self.export_file)
         self.openAction.triggered.connect(self.open_file)
@@ -250,6 +253,10 @@ class MainWindow(QMainWindow):
                     html_file.write("      <td></td>")
             html_file.write("   </tr>")
         html_file.write("</table>")
+        
+    def new_file(self, s):
+        """Restart program"""
+        os.execl(sys.executable, sys.executable, *sys.argv)
 
 
 if __name__ == "__main__":
