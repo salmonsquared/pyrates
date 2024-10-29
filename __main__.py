@@ -195,7 +195,7 @@ class MainWindow(QMainWindow):
   
     # Saving and Exporting
     def save_file(self, s):
-        """Save file to XML."""
+        """Save file to CSV."""
         file = QFileDialog.getSaveFileName(self, "Save CSV File",
                                            "", "CSV (*.csv)")
         writer = csv.writer(open(file[0], "w", newline=''),
@@ -212,7 +212,7 @@ class MainWindow(QMainWindow):
 
     # Opening
     def open_file(self, s):
-        """Open table from XML file."""
+        """Open table from CSV file."""
         file = QFileDialog.getOpenFileName(self, "Open CSV File",
                                            "", "CSV (*.csv)")
         reader = csv.reader(open(file[0], 'r',), delimiter=',', quotechar='|')
