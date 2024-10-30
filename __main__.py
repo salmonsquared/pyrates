@@ -79,7 +79,10 @@ class MyTableWidget(QTableWidget):
             current_row = self.currentRow()
             current_column = self.currentColumn()
             if current_column == 1:
-                search_title = self.item(current_row, current_column).text()
+                if self.item(current_row, current_column) is not None:
+                    search_title = self.item(current_row, current_column).text()
+                else:
+                    search_title = ""
                 search_parameters = {'t': search_title}
                 movie_data = requests.get(movie_api, params=search_parameters).json()
                 print(movie_data)
@@ -124,11 +127,6 @@ class MainWindow(QMainWindow):
         # Setup Widgets
         self.centralwidget = QtWidgets.QWidget()
         self.centralwidget.setLayout(QtWidgets.QVBoxLayout())
-        # Heading Label
-        self.label = QtWidgets.QLabel(self.centralwidget)
-        self.label.setAlignment(QtCore.Qt.AlignCenter)
-        self.label.setText("New Table")
-        self.centralwidget.layout().addWidget(self.label)
         # Table Widget
         self.tableWidget = MyTableWidget(self.centralwidget)
         self.tableWidget.setSizePolicy(QtWidgets.QSizePolicy.Expanding,
