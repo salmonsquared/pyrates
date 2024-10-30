@@ -105,7 +105,10 @@ class MyTableWidget(QTableWidget):
                                  QtWidgets.QTableWidgetItem(str(movie_poster_url)))
                     self.setCellWidget(current_row, 0, poster_label)
                 else:
-                    self.currentItem().setText("Movie not found!")
+                    if self.currentItem() is not None:
+                        self.currentItem().setText("Movie not found!")
+                    else:
+                        pass
         else:
             super(MyTableWidget, self).keyPressEvent(event)
 
